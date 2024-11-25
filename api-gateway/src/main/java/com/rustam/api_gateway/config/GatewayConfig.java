@@ -18,13 +18,13 @@ public class GatewayConfig {
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("ms-product", r -> r.path("/api/v1/product/**")
+                .route("ms-account", r -> r.path("/api/v1/account/**")
                         .filters(f -> f.filter(filter))
-                        .uri("lb://ms-product"))
+                        .uri("lb://ms-account"))
 
-                .route("ms-order", r -> r.path("/api/v1/order/**")
+                .route("ms-transfer", r -> r.path("/api/v1/transfer/**")
                         .filters(f -> f.filter(filter))
-                        .uri("lb://ms-order"))
+                        .uri("lb://ms-transfer"))
 
                 .route("ms-auth", r -> r.path("/api/v1/auth/**")
                         .uri("lb://ms-auth"))
