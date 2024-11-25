@@ -23,10 +23,12 @@ repositories {
     mavenCentral()
 }
 
+val springCloudVersion: String by extra("2023.0.3")
+
 dependencies {
     implementation ("io.springfox:springfox-boot-starter:3.0.0")
     implementation ("org.springdoc:springdoc-openapi-ui:1.5.13")
-
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -43,6 +45,12 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
+    }
 }
 
 tasks.withType<Test> {
