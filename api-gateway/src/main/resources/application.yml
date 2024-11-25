@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: api-gateway
+    jwt:
+      secret-key: ac8b79032c726ff4f955b6309340ae7d220265a78aac8e1ae69d090cc347512d2bd737d46e5cfabab3d04b1277d309afd9864941d2d6995bd0e6745e28c6d716a78fff97d3855cf9c6d28880002e40874856020a8cf95fad37aedaf86f4d1ccbd352a57cf10be4f77924f9828f025f4da26417f930b87cfcf9c869aa8cd11f0bf1a73bdd32170ab09c9ea1f8e62e747b1beb997e1d777265858087e63835795c79a7a697bbf9bda432bb68807bf109830ccfa56a353b12915a578f2f038aa2f74803f413add1506ca27b0af16b8586d4b04cff12de6b6193bff4c98bc24f5b67f8650637ebef22218ae4da96b0a449aa035bfcb5b2d2de828dbef0fd4904d137
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+    cloud:
+      gateway:
+        discovery:
+          locator:
+            enabled: true
+        httpclient:
+          connect-timeout: 60000
+          response-timeout: 60s
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: ms-order   # Order Service Route
+#          uri: lb://ms-order
+#          predicates:
+#            - Path=/api/v1/order/**
+#
+#        - id: ms-product  # Product Service Route
+#          uri: lb://ms-product
+#          predicates:
+#            - Path=/api/v1/product/**
+#
+#        - id: discovery-server  # Discovery-Server Service Route
+#          uri: http://localhost:8761
+#          predicates:
+#            - Path=/eureka/web
+#          filters:
+#            - SetPath=/
+#
+#        - id: discovery-server-static  # Discovery-Server-static Service Route
+#          uri: http://localhost:8761
+#          predicates:
+#            - Path=/eureka/**
+#
+#        - id: ms-auth  # Auth Service Route
+#          uri: lb://ms-auth
+#          predicates:
+#            - Path=/api/v1/auth/**
+
+
+logging:
+  level:
+    root: info
+    org.springframework.cloud.gateway.route.RouteDefinitionLocator: info
+    org.springframework.cloud.gateway: trace
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
