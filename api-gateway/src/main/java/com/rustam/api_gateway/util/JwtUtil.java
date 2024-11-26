@@ -13,6 +13,7 @@ public class JwtUtil {
 
     @Value("${spring.application.jwt.secret-key}")
     public String SECRET ;
+    
 
     public void validateToken(final String token) {
         Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
