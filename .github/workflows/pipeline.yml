@@ -42,9 +42,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Build Project
+        run: ./gradlew api-gateway:build --stacktrace --info
+
       - name: Verify JAR File
-        run: ls -l build/libs/
-        working-directory: api-gateway
+        run: ls -l api-gateway/build/libs/
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
