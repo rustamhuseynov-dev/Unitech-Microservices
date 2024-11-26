@@ -1,0 +1,9 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal() // Gradle pluginləri tapmaq üçün əlavə edin
+    }
+}
+
+rootProject.name = 'Unitech-Microservices'
+include 'api-gateway', 'ms-account', 'ms-auth1', 'ms-user'
