@@ -1,4 +1,4 @@
-name: CI/CD with GitHub Actions
+name: api-gateway
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: Unit Test and Build
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -76,4 +76,4 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/github_actions:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest
