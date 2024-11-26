@@ -45,6 +45,7 @@ jobs:
       - name: Grant execute permission for Gradle wrapper
         run: chmod +x ./gradlew
         working-directory: api-gateway
+        
 
       - name: Build Project
         run: ./gradlew api-gateway:build --stacktrace --info
