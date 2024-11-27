@@ -46,7 +46,7 @@ jobs:
         run: chmod +x ./api-gateway/gradlew
 
       - name: Build Project
-        run: ./gradlew api-gateway:build --stacktrace --info
+        run: ./api-gateway/gradlew api-gateway:build --stacktrace --info
 
       - name: Verify JAR File
         run: ls -l api-gateway/build/libs/
