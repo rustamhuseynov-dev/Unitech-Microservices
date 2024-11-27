@@ -33,7 +33,6 @@ jobs:
       - name: Build All Services
         run: ./gradlew build
 
-  # Docker job: Build and push Docker images
   docker:
     timeout-minutes: 5
     name: Build and Deploy Docker Images
