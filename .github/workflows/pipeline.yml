@@ -34,7 +34,7 @@ jobs:
         run: ./gradlew build
 
   docker:
-    timeout-minutes: 5
+    timeout-minutes: 60
     name: Build and Deploy Docker Images
     runs-on: ubuntu-latest
     needs: test
