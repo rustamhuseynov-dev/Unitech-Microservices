@@ -43,9 +43,6 @@ jobs:
         service:
           - api-gateway
           - ms-account
-          - discovery-server
-          - msauth1
-          - user
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
