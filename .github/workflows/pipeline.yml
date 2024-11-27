@@ -70,3 +70,6 @@ jobs:
           file: ./${{ matrix.service }}/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:cache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:cache,mode=max
+      
