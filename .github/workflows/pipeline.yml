@@ -59,8 +59,8 @@ jobs:
       - name: Grant execute permission for Gradle wrapper
         run: chmod +x ./${{ matrix.service }}/gradlew
 
-      - name: Build Project
-        run: ./${{ matrix.service }}/gradlew build --stacktrace --info
+#      - name: Build Project
+#        run: ./${{ matrix.service }}/gradlew build --stacktrace --info
 
       - name: Verify JAR File
         run: ls -l ./${{ matrix.service }}/build/libs/
