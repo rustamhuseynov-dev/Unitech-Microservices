@@ -35,6 +35,10 @@ dependencyManagement {
 	}
 }
 
+bootJar{
+	archiveFileName="discovery-server.jar"
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
