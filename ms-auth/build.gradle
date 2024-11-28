@@ -42,6 +42,10 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+bootJar{
+	archiveFileName = 'ms-auth.jar'
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

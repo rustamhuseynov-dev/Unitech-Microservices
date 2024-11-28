@@ -6,4 +6,4 @@ pluginManagement {
 }
 
 rootProject.name = 'Unitech-Microservices'
-include 'api-gateway','discovery-server','ms-account', 'ms-auth'
+include 'api-gateway','discovery-server','ms-account','ms-auth'
