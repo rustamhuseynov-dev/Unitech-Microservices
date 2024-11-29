@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -7,6 +8,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/api-gateway" />
+            <option value="$PROJECT_DIR$/discovery-server" />
+            <option value="$PROJECT_DIR$/ms-account" />
+            <option value="$PROJECT_DIR$/ms-auth" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -31,6 +36,14 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/ms-account" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/ms-auth" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/ms-auth" />
           </set>
         </option>
       </GradleProjectSettings>

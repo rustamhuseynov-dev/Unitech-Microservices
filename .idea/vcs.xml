@@ -2,7 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/UniTech" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ms-account" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/msauth1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/user" vcs="Git" />
