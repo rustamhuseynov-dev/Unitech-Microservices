@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: ms-currency
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  currency:
+    api-key: "fca_live_qG9OgrdEqoD2aj2XOnRrZn5kCmI8w5YPFIYaao8Z"
