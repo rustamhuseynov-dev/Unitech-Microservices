@@ -41,9 +41,9 @@ jobs:
     strategy:
       matrix:
         service:
-          - api-gateway
+          - ms-api-gateway
           - ms-account
-          - discovery-server
+          - ms-discovery-server
           - ms-auth
           - ms-currency
     steps:
