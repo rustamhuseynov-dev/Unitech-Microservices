@@ -45,6 +45,7 @@ jobs:
           - ms-account
           - discovery-server
           - ms-auth
+          - ms-currency
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
