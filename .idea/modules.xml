@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/api-gateway/Unitech-Microservices.api-gateway.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api-gateway/Unitech-Microservices.api-gateway.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-account/Unitech-Microservices.ms-account.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-account/Unitech-Microservices.ms-account.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-api-gateway/Unitech-Microservices.ms-api-gateway.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-api-gateway/Unitech-Microservices.ms-api-gateway.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-auth/Unitech-Microservices.ms-auth.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-auth/Unitech-Microservices.ms-auth.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-currency/Unitech-Microservices.ms-currency.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-currency/Unitech-Microservices.ms-currency.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api-gateway.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api-gateway.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-account.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-account.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-auth1.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-auth1.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-user.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-user.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-currency.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-currency.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/unitech.main.iml" filepath="$PROJECT_DIR$/.idea/modules/unitech.main.iml" />
     </modules>
   </component>

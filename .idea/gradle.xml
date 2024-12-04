@@ -8,26 +8,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/api-gateway" />
-            <option value="$PROJECT_DIR$/discovery-server" />
             <option value="$PROJECT_DIR$/ms-account" />
+            <option value="$PROJECT_DIR$/ms-api-gateway" />
             <option value="$PROJECT_DIR$/ms-auth" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/api-gateway" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/api-gateway" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/discovery-server" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/discovery-server" />
+            <option value="$PROJECT_DIR$/ms-currency" />
+            <option value="$PROJECT_DIR$/ms-discovery-server" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -40,6 +25,14 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/ms-api-gateway" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/ms-api-gateway" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/ms-auth" />
         <option name="modules">
           <set>
@@ -48,18 +41,26 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/msauth1" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/ms-currency" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/msauth1" />
+            <option value="$PROJECT_DIR$/ms-currency" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/user" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/ms-discovery-server" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/user" />
+            <option value="$PROJECT_DIR$/ms-discovery-server" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/ms-notification-service" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/ms-notification-service" />
           </set>
         </option>
       </GradleProjectSettings>
