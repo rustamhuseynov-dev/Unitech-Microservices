@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: ms-notification-service
+  kafka:
+    consumer:
+      group-id: ms-notification-consumer
+      bootstrap-servers: "localhost:9092"
+      properties:
+        back.off.period: 5000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+server:
+  port: 8888
+
+
+
