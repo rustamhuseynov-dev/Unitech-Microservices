@@ -1,10 +1,14 @@
 package com.rustam.unitech.service;
 
 import com.rustam.unitech.dto.request.UserRequest;
+import com.rustam.unitech.dto.request.UserUpdateRequest;
 import com.rustam.unitech.dto.response.UserResponse;
+import com.rustam.unitech.exception.custom.UserNotFoundException;
+import com.rustam.unitech.mapper.UserMapper;
 import com.rustam.unitech.model.User;
 import com.rustam.unitech.model.enums.Role;
 import com.rustam.unitech.repository.UserRepository;
+import com.rustam.unitech.service.kafka.KafkaProducerService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,6 +24,8 @@ public class UserService {
 
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+    UserMapper userMapper;
+    KafkaProducerService kafkaProducerService;
 
     public UserResponse save(UserRequest userRequest) {
         User user = User.builder()
@@ -33,5 +39,14 @@ public class UserService {
                 .username(userRequest.getUsername())
                 .name(userRequest.getName())
                 .build();
+    }
+
+    public UserResponse update(UserUpdateRequest userUpdateRequest) {
+        User user = userRepository.findById(userUpdateRequest.getId())
+                .orElseThrow(() -> new UserNotFoundException("No such user found."));
+        UserResponse response = userMapper.toDto(user);
+        userRepository.save(user);
+        kafkaProducerService.sendMessage(response);
+        return response;
     }
 }
