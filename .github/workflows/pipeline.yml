@@ -46,6 +46,7 @@ jobs:
           - ms-discovery-server
           - ms-auth
           - ms-currency
+          - ms-notification-service
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
