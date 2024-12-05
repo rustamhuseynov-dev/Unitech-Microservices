@@ -1,10 +1,13 @@
 package com.rustam.unitech.mapper;
 
+import com.rustam.unitech.dto.request.UserUpdateRequest;
 import com.rustam.unitech.dto.response.UserResponse;
 import com.rustam.unitech.model.User;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+
+import java.util.List;
 
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
@@ -15,6 +18,7 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 )
 public interface UserMapper {
 
-    UserResponse toDto(User user);
+    List<UserResponse> toResponses(List<User> users);
 
+    UserResponse toResponse(User user);
 }
