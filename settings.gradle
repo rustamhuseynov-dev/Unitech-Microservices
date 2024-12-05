@@ -4,6 +4,5 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-
 rootProject.name = 'Unitech-Microservices'
-include 'ms-account','ms-api-gateway','ms-auth','ms-currency','ms-discovery-server','ms-notification'
+include 'ms-account','ms-api-gateway','ms-auth','ms-currency','ms-discovery-server','ms-notification-service'
