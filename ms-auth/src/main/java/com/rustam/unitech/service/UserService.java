@@ -2,6 +2,7 @@ package com.rustam.unitech.service;
 
 import com.rustam.unitech.dto.request.UserRequest;
 import com.rustam.unitech.dto.request.UserUpdateRequest;
+import com.rustam.unitech.dto.response.UserDeletedResponse;
 import com.rustam.unitech.dto.response.UserResponse;
 import com.rustam.unitech.exception.custom.ExistsException;
 import com.rustam.unitech.exception.custom.UserNotFoundException;
@@ -37,6 +38,7 @@ public class UserService {
                 .username(userRequest.getUsername())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
                 .name(userRequest.getName())
+                .email(userRequest.getEmail())
                 .authorities(Collections.singleton(Role.ROLE_USER))
                 .build();
         userRepository.save(user);
@@ -47,8 +49,7 @@ public class UserService {
     }
 
     public UserResponse update(UserUpdateRequest userUpdateRequest) {
-        User user = userRepository.findById(userUpdateRequest.getId())
-                .orElseThrow(() -> new UserNotFoundException("No such user found."));
+        User user = findById(userUpdateRequest.getId());
         boolean exists = findAll().stream()
                 .map(User::getUsername)
                 .anyMatch(existingUsername -> existingUsername.equals(userUpdateRequest.getUsername()));
@@ -76,8 +77,21 @@ public class UserService {
     }
 
     public UserResponse read(UUID id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("No such user found."));
+        User user = findById(id);
         return userMapper.toResponse(user);
+    }
+
+    private User findById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("No such user found."));
+    }
+
+    public UserDeletedResponse remove(UUID id) {
+        User user = findById(id);
+        UserDeletedResponse deletedResponse = new UserDeletedResponse();
+        modelMapper.map(user,deletedResponse);
+        deletedResponse.setText("This user was deleted by you.");
+        userRepository.delete(user);
+        return deletedResponse;
     }
 }
