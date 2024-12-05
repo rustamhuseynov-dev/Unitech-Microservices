@@ -1,5 +1,6 @@
 package com.rustam.unitech.service.kafka;
 
+import com.rustam.unitech.dto.kafka.VerificationSendDto;
 import com.rustam.unitech.dto.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
