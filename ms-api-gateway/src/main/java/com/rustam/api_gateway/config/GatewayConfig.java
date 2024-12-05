@@ -1,19 +1,17 @@
 package com.rustam.api_gateway.config;
 
 import com.rustam.api_gateway.filter.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 public class GatewayConfig {
 
     private final JwtAuthenticationFilter filter;
-
-    public GatewayConfig(JwtAuthenticationFilter filter) {
-        this.filter = filter;
-    }
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
@@ -31,7 +29,7 @@ public class GatewayConfig {
                         .uri("lb://ms-currency"))
 
                 .route("ms-auth", r -> r.path("/api/v1/auth/**")
-                        .uri("lb://ms-auth"))
+                        .uri("lb://unit"))
                 .build();
     }
 }
