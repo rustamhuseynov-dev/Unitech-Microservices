@@ -2,8 +2,11 @@ package com.rustam.unitech.controller;
 
 import com.rustam.unitech.dto.request.AuthRequest;
 import com.rustam.unitech.dto.request.RefreshRequest;
+import com.rustam.unitech.dto.request.UserUpdateRequest;
 import com.rustam.unitech.dto.response.AuthResponse;
+import com.rustam.unitech.dto.response.UserResponse;
 import com.rustam.unitech.service.AuthService;
+import com.rustam.unitech.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     AuthService authService;
+
+    UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest){
@@ -34,4 +39,8 @@ public class AuthController {
         return authService.logout(refreshRequest);
     }
 
+    @PutMapping(path = "/update")
+    public ResponseEntity<UserResponse> update(@RequestBody UserUpdateRequest userUpdateRequest){
+        return new ResponseEntity<>(userService.update(userUpdateRequest),HttpStatus.OK);
+    }
 }
