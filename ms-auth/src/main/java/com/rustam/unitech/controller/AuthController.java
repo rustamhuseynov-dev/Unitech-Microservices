@@ -39,8 +39,4 @@ public class AuthController {
         return authService.logout(refreshRequest);
     }
 
-    @PutMapping(path = "/update")
-    public ResponseEntity<UserResponse> update(@RequestBody UserUpdateRequest userUpdateRequest){
-        return new ResponseEntity<>(userService.update(userUpdateRequest),HttpStatus.OK);
-    }
 }

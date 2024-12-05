@@ -1,6 +1,7 @@
 package com.rustam.unitech.exception;
 
 import com.rustam.unitech.dto.response.exception.ExceptionResponseMessages;
+import com.rustam.unitech.exception.custom.ExistsException;
 import com.rustam.unitech.exception.custom.UnauthorizedException;
 import com.rustam.unitech.exception.custom.UserNotFoundException;
 import jakarta.validation.ConstraintViolation;
@@ -37,6 +38,16 @@ public class GlobalExceptionHandler {
                 HttpStatus.NOT_FOUND
         );
     }
+
+
+    @ExceptionHandler(ExistsException.class)
+    public ResponseEntity<ExceptionResponseMessages> handleExistsException(ExistsException ex) {
+        return new ResponseEntity<>(
+                new ExceptionResponseMessages(ex.getClass().getName(), ex.getMessage(), HttpStatus.CONFLICT),
+                HttpStatus.CONFLICT
+        );
+    }
+
 
 
     // Validation exceptions
