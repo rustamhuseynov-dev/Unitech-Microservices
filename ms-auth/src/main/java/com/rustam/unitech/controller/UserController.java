@@ -2,6 +2,7 @@ package com.rustam.unitech.controller;
 
 import com.rustam.unitech.dto.request.UserRequest;
 import com.rustam.unitech.dto.request.UserUpdateRequest;
+import com.rustam.unitech.dto.response.UserDeletedResponse;
 import com.rustam.unitech.dto.response.UserResponse;
 import com.rustam.unitech.service.UserService;
 import lombok.AccessLevel;
@@ -40,6 +41,11 @@ public class UserController {
     @GetMapping(path = "/read/{id}")
     public ResponseEntity<UserResponse> read(@PathVariable UUID id){
         return new ResponseEntity<>(userService.read(id),HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/remove/{id}")
+    public ResponseEntity<UserDeletedResponse> remove(@PathVariable UUID id){
+        return new ResponseEntity<>(userService.remove(id),HttpStatus.OK);
     }
 
 }
