@@ -1,4 +1,4 @@
-package com.rustam.unitech.dto.request;
+package com.rustam.unitech.dto.kafka;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,13 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserRequest {
+public class VerificationSendDto {
 
     private String name;
-
-    private String username;
-
     private String email;
-
-    private String password;
 }
