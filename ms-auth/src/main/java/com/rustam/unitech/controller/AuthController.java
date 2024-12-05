@@ -1,6 +1,7 @@
 package com.rustam.unitech.controller;
 
 import com.rustam.unitech.dto.request.AuthRequest;
+import com.rustam.unitech.dto.request.ForgotYourPasswordRequest;
 import com.rustam.unitech.dto.request.RefreshRequest;
 import com.rustam.unitech.dto.request.UserUpdateRequest;
 import com.rustam.unitech.dto.response.AuthResponse;
@@ -22,8 +23,6 @@ public class AuthController {
 
     AuthService authService;
 
-    UserService userService;
-
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest){
         return new ResponseEntity<>(authService.login(authRequest), HttpStatus.OK);
@@ -39,4 +38,8 @@ public class AuthController {
         return authService.logout(refreshRequest);
     }
 
+    @PutMapping(path = "/forgot-your-password")
+    public String forgotYourPassword(@RequestBody ForgotYourPasswordRequest forgotYourPasswordRequest){
+        return authService.forgotYourPassword(forgotYourPasswordRequest);
+    }
 }
