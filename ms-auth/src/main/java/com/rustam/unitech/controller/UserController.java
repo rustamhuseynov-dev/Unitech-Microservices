@@ -24,9 +24,4 @@ public class UserController {
         return new ResponseEntity<>(userService.save(userRequest), HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/update")
-    public ResponseEntity<UserResponse> update(@RequestBody UserUpdateRequest userUpdateRequest){
-        return new ResponseEntity<>(userService.update(userUpdateRequest),HttpStatus.OK);
-    }
-
 }
