@@ -1,6 +1,8 @@
 package com.rustam.unitech.service;
 
+import com.rustam.unitech.dto.kafka.VerificationSendDto;
 import com.rustam.unitech.dto.request.AuthRequest;
+import com.rustam.unitech.dto.request.ForgotYourPasswordRequest;
 import com.rustam.unitech.dto.request.RefreshRequest;
 import com.rustam.unitech.dto.response.AuthResponse;
 import com.rustam.unitech.dto.response.TokenPair;
@@ -8,6 +10,8 @@ import com.rustam.unitech.exception.custom.UnauthorizedException;
 import com.rustam.unitech.exception.custom.UserNotFoundException;
 import com.rustam.unitech.model.User;
 import com.rustam.unitech.repository.UserRepository;
+import com.rustam.unitech.service.kafka.KafkaProducerService;
+import com.rustam.unitech.service.kafka.KafkaVerificationService;
 import com.rustam.unitech.service.user.UserDetailsServiceImpl;
 import com.rustam.unitech.util.jwt.JwtService;
 import lombok.AccessLevel;
@@ -28,6 +32,7 @@ public class AuthService {
     UserDetailsServiceImpl userDetailsService;
     JwtService jwtService;
     RedisTemplate<String,String> redisTemplate;
+    KafkaVerificationService kafkaVerificationService;
 
     public AuthResponse login(AuthRequest authRequest) {
         User user = userRepository.findByUsername(authRequest.getUsername())
@@ -75,5 +80,13 @@ public class AuthService {
         else {
             throw new UnauthorizedException("Çıxış edərkən xəta baş verdi.");
         }
+    }
+
+    public String forgotYourPassword(ForgotYourPasswordRequest forgotYourPasswordRequest) {
+        User user = userRepository.findByEmail(forgotYourPasswordRequest.getEmail())
+                .orElseThrow(() -> new UserNotFoundException("No such user found."));
+        VerificationSendDto verificationSendDto = VerificationSendDto.builder().email(forgotYourPasswordRequest.getEmail()).name(user.getName()).build();
+        kafkaVerificationService.sendMessageVerification(verificationSendDto);
+        return "Sent to your email.";
     }
 }
