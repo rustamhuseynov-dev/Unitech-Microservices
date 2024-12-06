@@ -1,20 +1,24 @@
 package com.rustam.unitech.service;
 
+import com.rustam.unitech.dto.request.ResetPasswordRequest;
 import com.rustam.unitech.dto.request.UserRequest;
 import com.rustam.unitech.dto.request.UserUpdateRequest;
 import com.rustam.unitech.dto.response.UserDeletedResponse;
 import com.rustam.unitech.dto.response.UserResponse;
 import com.rustam.unitech.exception.custom.ExistsException;
+import com.rustam.unitech.exception.custom.IncorrectPasswordException;
 import com.rustam.unitech.exception.custom.UserNotFoundException;
 import com.rustam.unitech.mapper.UserMapper;
 import com.rustam.unitech.model.User;
 import com.rustam.unitech.model.enums.Role;
 import com.rustam.unitech.repository.UserRepository;
 import com.rustam.unitech.service.kafka.KafkaProducerService;
+import com.rustam.unitech.service.user.UserDetailsServiceImpl;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
