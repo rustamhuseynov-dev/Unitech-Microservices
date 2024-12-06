@@ -1,24 +1,28 @@
 package com.rustam.unitech.service;
 
+import com.rustam.unitech.config.PasswordEncoderConfig;
 import com.rustam.unitech.dto.kafka.VerificationSendDto;
 import com.rustam.unitech.dto.request.AuthRequest;
 import com.rustam.unitech.dto.request.ForgotYourPasswordRequest;
 import com.rustam.unitech.dto.request.RefreshRequest;
+import com.rustam.unitech.dto.request.ResetPasswordRequest;
 import com.rustam.unitech.dto.response.AuthResponse;
 import com.rustam.unitech.dto.response.TokenPair;
+import com.rustam.unitech.exception.custom.IncorrectPasswordException;
 import com.rustam.unitech.exception.custom.UnauthorizedException;
 import com.rustam.unitech.exception.custom.UserNotFoundException;
 import com.rustam.unitech.model.User;
 import com.rustam.unitech.repository.UserRepository;
-import com.rustam.unitech.service.kafka.KafkaProducerService;
 import com.rustam.unitech.service.kafka.KafkaVerificationService;
 import com.rustam.unitech.service.user.UserDetailsServiceImpl;
+import com.rustam.unitech.util.UtilService;
 import com.rustam.unitech.util.jwt.JwtService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -28,15 +32,18 @@ import java.time.Duration;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AuthService {
 
-    UserRepository userRepository;
-    UserDetailsServiceImpl userDetailsService;
+    UtilService utilService;
     JwtService jwtService;
     RedisTemplate<String,String> redisTemplate;
     KafkaVerificationService kafkaVerificationService;
+    UserDetailsServiceImpl userDetailsService;
+    PasswordEncoderConfig passwordEncoderConfig;
 
     public AuthResponse login(AuthRequest authRequest) {
-        User user = userRepository.findByUsername(authRequest.getUsername())
-                .orElseThrow(() -> new UserNotFoundException("User Not Found with username: " + authRequest.getUsername()));
+        User user = utilService.findByUsername(authRequest.getUsername());
+        if (!passwordEncoderConfig.passwordEncoder().matches(authRequest.getPassword(),user.getPassword())){
+            throw new IncorrectPasswordException("password does not match");
+        }
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getId());
         TokenPair tokenPair = userDetails.isEnabled() ?
                 TokenPair.builder()
@@ -83,10 +90,14 @@ public class AuthService {
     }
 
     public String forgotYourPassword(ForgotYourPasswordRequest forgotYourPasswordRequest) {
-        User user = userRepository.findByEmail(forgotYourPasswordRequest.getEmail())
-                .orElseThrow(() -> new UserNotFoundException("No such user found."));
+        User user = utilService.findByEmail(forgotYourPasswordRequest.getEmail());
         VerificationSendDto verificationSendDto = VerificationSendDto.builder().email(forgotYourPasswordRequest.getEmail()).name(user.getName()).build();
         kafkaVerificationService.sendMessageVerification(verificationSendDto);
         return "Sent to your email.";
+    }
+
+    public String resetPassword(ResetPasswordRequest resetPasswordRequest) {
+        utilService.utilResetPassword(resetPasswordRequest);
+        return "Your password has been successfully reset.";
     }
 }
