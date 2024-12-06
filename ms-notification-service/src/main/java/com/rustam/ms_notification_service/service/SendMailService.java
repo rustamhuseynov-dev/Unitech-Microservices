@@ -33,7 +33,6 @@ public class SendMailService {
     }
 
     private void sendEmailVerification(VerificationSendDto verificationSendDto) {
-        emailSender.sendEmail(verificationSendDto.getEmail(), "Hi Mr." +verificationSendDto.getName() , "Visit this link and update your password: http://localhost:8085/api/v1/auth/reset-password");
+        emailSender.sendEmail(verificationSendDto.getEmail(), "Hi Mr." + verificationSendDto.getName() , "Visit this link and update your password: http://localhost:8085/api/v1/auth/reset-password");
     }
-
 }

@@ -1,9 +1,6 @@
 package com.rustam.unitech.controller;
 
-import com.rustam.unitech.dto.request.AuthRequest;
-import com.rustam.unitech.dto.request.ForgotYourPasswordRequest;
-import com.rustam.unitech.dto.request.RefreshRequest;
-import com.rustam.unitech.dto.request.UserUpdateRequest;
+import com.rustam.unitech.dto.request.*;
 import com.rustam.unitech.dto.response.AuthResponse;
 import com.rustam.unitech.dto.response.UserResponse;
 import com.rustam.unitech.service.AuthService;
@@ -41,5 +38,10 @@ public class AuthController {
     @PutMapping(path = "/forgot-your-password")
     public String forgotYourPassword(@RequestBody ForgotYourPasswordRequest forgotYourPasswordRequest){
         return authService.forgotYourPassword(forgotYourPasswordRequest);
+    }
+
+    @PutMapping(path = "/reset-password")
+    public String resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest){
+        return authService.resetPassword(resetPasswordRequest);
     }
 }
