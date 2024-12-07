@@ -20,13 +20,9 @@ public class GatewayConfig {
                         .filters(f -> f.filter(filter))
                         .uri("lb://ms-account"))
 
-                .route("ms-transfer", r -> r.path("/api/v1/transfer/**")
-                        .filters(f -> f.filter(filter))
-                        .uri("lb://ms-transfer"))
-
                 .route("ms-currency", r -> r.path("/api/v1/currency/**")
                         .filters(f -> f.filter(filter))
-                        .uri("lb://ms-currency"))
+                        .uri("http://localhost:8081"))
 
                 .route("ms-auth", r -> r.path("/api/v1/auth/**")
                         .uri("lb://unit"))

@@ -21,7 +21,6 @@ public class KafkaConsumerService {
         log.info("userId {}",jwt);
         String id = jwtUtil.extractSubject(jwt);
         AccountRequest accountRequest = new AccountRequest();
-        accountRequest.setUserId(id);
         accountService.createAccount(accountRequest);
     }
 }
