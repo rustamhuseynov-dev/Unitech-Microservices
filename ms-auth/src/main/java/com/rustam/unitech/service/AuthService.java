@@ -21,6 +21,7 @@ import com.rustam.unitech.util.jwt.JwtService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +32,7 @@ import java.time.Duration;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@Slf4j
 public class AuthService {
 
     UtilService utilService;
@@ -63,6 +65,7 @@ public class AuthService {
 
     public String refreshToken(RefreshRequest request) {
         System.out.println(request.getRefreshToken());
+        log.info("api-gateway to send refresh token {}",request.getRefreshToken());
         String userId = jwtService.getUserIdAsUsernameFromTokenExpired(request.getRefreshToken()); // Token-dan user ID-ni çıxart
 
         if (userId == null) {
