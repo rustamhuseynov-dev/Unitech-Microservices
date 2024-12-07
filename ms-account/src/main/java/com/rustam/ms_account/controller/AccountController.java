@@ -24,6 +24,7 @@ public class AccountController {
     @PostMapping(path = "/create-account")
     public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody AccountRequest accountRequest){
         return new ResponseEntity<>(accountService.createAccount(accountRequest), HttpStatus.CREATED);
+
     }
 
     @GetMapping(path = "/read-assets")
