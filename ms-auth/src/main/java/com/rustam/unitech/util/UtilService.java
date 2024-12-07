@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -56,5 +57,14 @@ public class UtilService {
         }else {
             throw new IncorrectPasswordException("password does not match");
         }
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public User findById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("No such user found."));
     }
 }
