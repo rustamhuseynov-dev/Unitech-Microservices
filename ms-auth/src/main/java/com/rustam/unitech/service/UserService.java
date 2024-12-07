@@ -14,6 +14,7 @@ import com.rustam.unitech.model.enums.Role;
 import com.rustam.unitech.repository.UserRepository;
 import com.rustam.unitech.service.kafka.KafkaProducerService;
 import com.rustam.unitech.service.user.UserDetailsServiceImpl;
+import com.rustam.unitech.util.UtilService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -36,6 +37,7 @@ public class UserService {
     ModelMapper modelMapper;
     UserMapper userMapper;
     KafkaProducerService kafkaProducerService;
+    UtilService utilService;
 
     public UserResponse save(UserRequest userRequest) {
         User user = User.builder()
@@ -53,8 +55,8 @@ public class UserService {
     }
 
     public UserResponse update(UserUpdateRequest userUpdateRequest) {
-        User user = findById(userUpdateRequest.getId());
-        boolean exists = findAll().stream()
+        User user = utilService.findById(userUpdateRequest.getId());
+        boolean exists = utilService.findAll().stream()
                 .map(User::getUsername)
                 .anyMatch(existingUsername -> existingUsername.equals(userUpdateRequest.getUsername()));
         if (exists){
@@ -72,26 +74,17 @@ public class UserService {
     }
 
     public List<UserResponse> readAll() {
-        List<User> users = findAll();
+        List<User> users = utilService.findAll();
         return userMapper.toResponses(users);
     }
 
-    private List<User> findAll() {
-        return userRepository.findAll();
-    }
-
     public UserResponse read(UUID id) {
-        User user = findById(id);
+        User user = utilService.findById(id);
         return userMapper.toResponse(user);
     }
 
-    private User findById(UUID id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("No such user found."));
-    }
-
     public UserDeletedResponse remove(UUID id) {
-        User user = findById(id);
+        User user = utilService.findById(id);
         UserDeletedResponse deletedResponse = new UserDeletedResponse();
         modelMapper.map(user,deletedResponse);
         deletedResponse.setText("This user was deleted by you.");
