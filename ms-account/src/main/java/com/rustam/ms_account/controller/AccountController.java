@@ -22,9 +22,9 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping(path = "/create-account")
-    public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody AccountRequest accountRequest){
-        return new ResponseEntity<>(accountService.createAccount(accountRequest), HttpStatus.CREATED);
-
+    public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody AccountRequest accountRequest,
+                                                         @RequestHeader("Authorization") String token){
+        return new ResponseEntity<>(accountService.createAccount(accountRequest,token), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/read-assets")
@@ -37,10 +37,10 @@ public class AccountController {
         return new ResponseEntity<>(accountService.readAssetsByUsername(username), HttpStatus.OK);
     }
 
-    @PutMapping(path = "/update-account")
-    public ResponseEntity<AccountResponse> updateAccount(@RequestBody AccountRequest accountRequest){
-        return new ResponseEntity<>(accountService.updateAccount(accountRequest),HttpStatus.OK);
-    }
+//    @PutMapping(path = "/update-account")
+//    public ResponseEntity<AccountResponse> updateAccount(@RequestBody AccountRequest accountRequest){
+//        return new ResponseEntity<>(accountService.updateAccount(accountRequest),HttpStatus.OK);
+//    }
 
     @PostMapping(path = "/account-increase")
     public ResponseEntity<AccountIncreaseResponse> accountIncrease(@RequestBody AccountIncreaseRequest accountIncreaseRequest){
