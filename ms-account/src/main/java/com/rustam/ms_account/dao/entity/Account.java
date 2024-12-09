@@ -36,7 +36,7 @@ public class Account {
     private String iban;
 
     @Column(name = "customer_id")
-    private String customerId;
+    private UUID customerId;
 
     @Column(name = "balance")
     private BigDecimal balance;
