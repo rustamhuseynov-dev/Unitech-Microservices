@@ -41,6 +41,8 @@ public class Account {
     @Column(name = "balance")
     private BigDecimal balance;
 
+    private BigDecimal currencyExchangeSum;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private AccountStatus status;
