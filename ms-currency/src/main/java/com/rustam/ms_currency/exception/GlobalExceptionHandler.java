@@ -1,7 +1,7 @@
-package com.rustam.ms_account.exception;
+package com.rustam.ms_currency.exception;
 
-import com.rustam.ms_account.dto.exception.ExceptionResponseMessages;
-import com.rustam.ms_account.exception.custom.ResponseNotFoundException;
+import com.rustam.ms_currency.dto.exception.ExceptionResponseMessages;
+import com.rustam.ms_currency.exception.custom.CurrencyCodeNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +21,8 @@ import java.util.Set;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ResponseNotFoundException.class)
-    public ResponseEntity<ExceptionResponseMessages> handleIncorrectPasswordException(ResponseNotFoundException ex) {
+    @ExceptionHandler(CurrencyCodeNotFoundException.class)
+    public ResponseEntity<ExceptionResponseMessages> handleIncorrectPasswordException(CurrencyCodeNotFoundException ex) {
         return new ResponseEntity<>(
                 new ExceptionResponseMessages(ex.getClass().getName(), ex.getMessage(), HttpStatus.CONFLICT),
                 HttpStatus.CONFLICT
@@ -73,3 +73,4 @@ public class GlobalExceptionHandler {
         );
     }
 }
+

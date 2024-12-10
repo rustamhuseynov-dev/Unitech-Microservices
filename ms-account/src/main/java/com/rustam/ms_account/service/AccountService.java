@@ -1,11 +1,14 @@
 package com.rustam.ms_account.service;
 
+import com.rustam.ms_account.config.WebClientConfig;
 import com.rustam.ms_account.dao.entity.Account;
 import com.rustam.ms_account.dao.enums.AccountStatus;
 import com.rustam.ms_account.dao.repository.AccountRepository;
+import com.rustam.ms_account.dto.request.AccountCurrencyConvertRequest;
 import com.rustam.ms_account.dto.request.AccountIncreaseRequest;
 import com.rustam.ms_account.dto.request.AccountRequest;
 import com.rustam.ms_account.dto.request.UpdateAccountRequest;
+import com.rustam.ms_account.dto.response.AccountCurrencyConvertResponse;
 import com.rustam.ms_account.dto.response.AccountIncreaseResponse;
 import com.rustam.ms_account.dto.response.AccountResponse;
 import com.rustam.ms_account.exception.custom.ResponseNotFoundException;
@@ -14,10 +17,13 @@ import com.rustam.ms_account.util.IbanService;
 import com.rustam.ms_account.util.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -40,16 +46,18 @@ public class AccountService {
 
     private final JwtUtil jwtUtil;
 
-    private static final String AUTH_SERVICE_URL = "http://localhost:8085/api/v1/user/read";
+    private final WebClient.Builder builder;
+
+    @Value("${spring.application.ms-auth}")
+    private String AUTH_SERVICE_URL;
+
+    @Value("${spring.application.ms-currency}")
+    private String CURRENCY_SERVICE_URL;
 
     @Transactional
-    public AccountResponse createAccount(AccountRequest accountRequest,String token) {
+    public AccountResponse createAccount(AccountRequest accountRequest, String token) {
 
-        token = token.replace("Bearer ", "");
-
-        UUID userId = UUID.fromString(jwtUtil.extractUsername(token));
-
-        log.info("token {}",userId);
+        UUID userId = securityContextHolder(token);
 
         String url = AUTH_SERVICE_URL + "/" + userId;
 
@@ -75,6 +83,18 @@ public class AccountService {
                 .build();
         accountRepository.save(account);
         return accountMapper.toDto(account);
+    }
+
+    private UUID securityContextHolder(String token) {
+
+        token = token.replace("Bearer ", "");
+
+        UUID userId = UUID.fromString(jwtUtil.extractUsername(token));
+
+        log.info("token {}", userId);
+
+        return userId;
+
     }
 
     public List<Account> readAssets() {
@@ -119,6 +139,40 @@ public class AccountService {
         account.setIncreaseBalanceAt(LocalDateTime.now());
         accountRepository.save(account);
         return accountMapper.toIncreaseResponse(account);
+    }
+
+    @Transactional
+    public AccountCurrencyConvertResponse accountCurrencyConvert(AccountCurrencyConvertRequest accountCurrencyConvertRequest, String token) {
+        UUID userId = securityContextHolder(token);
+        Account account = accountRepository.findByCustomerId(userId).
+                orElseThrow(() -> new ResponseNotFoundException("No such customer was found."));
+        if (account.getCurrency().equals(accountCurrencyConvertRequest.getCurrencyCode())){
+            throw new ResponseNotFoundException("The currency of this employee is the same as the currency to be converted.");
+        }
+        BigDecimal calculatedValue =
+                getCurrencyValue(String.valueOf(accountCurrencyConvertRequest.getCurrencyCode()))
+                .map(currency ->
+                        account.getBalance().multiply(BigDecimal.valueOf(currency)))
+                .block();
+        account.setCurrencyExchangeSum(calculatedValue);
+        accountRepository.save(account);
+        return AccountCurrencyConvertResponse.builder()
+                .currentCurrency(account.getCurrency())
+                .convertCurrency(accountCurrencyConvertRequest.getCurrencyCode())
+                .sum(calculatedValue)
+                .build();
+    }
+
+    private Mono<Double> getCurrencyValue(String currencyCode) {
+        return builder.build()
+                .get()
+                .uri(CURRENCY_SERVICE_URL + "?currencyCode=" + currencyCode)
+                .retrieve()
+                .bodyToMono(Double.class)
+                .onErrorResume(e -> {
+                    System.err.println("Error occurred: " + e.getMessage());
+                    return Mono.empty();
+                });
     }
 
     @Transactional

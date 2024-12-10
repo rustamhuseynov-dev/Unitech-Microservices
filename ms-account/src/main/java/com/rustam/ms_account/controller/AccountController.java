@@ -1,9 +1,11 @@
 package com.rustam.ms_account.controller;
 
 import com.rustam.ms_account.dao.entity.Account;
+import com.rustam.ms_account.dto.request.AccountCurrencyConvertRequest;
 import com.rustam.ms_account.dto.request.AccountIncreaseRequest;
 import com.rustam.ms_account.dto.request.AccountRequest;
 import com.rustam.ms_account.dto.request.UpdateAccountRequest;
+import com.rustam.ms_account.dto.response.AccountCurrencyConvertResponse;
 import com.rustam.ms_account.dto.response.AccountIncreaseResponse;
 import com.rustam.ms_account.dto.response.AccountResponse;
 import com.rustam.ms_account.service.AccountService;
@@ -51,6 +53,12 @@ public class AccountController {
     @PostMapping(path = "/account-withdraw")
     public ResponseEntity<AccountIncreaseResponse> accountWithdraw(@RequestBody AccountIncreaseRequest accountIncreaseRequest){
         return new ResponseEntity<>(accountService.accountWithdraw(accountIncreaseRequest),HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/account-currency-convert")
+    public ResponseEntity<AccountCurrencyConvertResponse> accountCurrencyConvert(@RequestBody AccountCurrencyConvertRequest accountCurrencyConvertRequest,
+                                                                                 @RequestHeader("Authorization") String token){
+        return new ResponseEntity<>(accountService.accountCurrencyConvert(accountCurrencyConvertRequest,token),HttpStatus.OK);
     }
 
 }
