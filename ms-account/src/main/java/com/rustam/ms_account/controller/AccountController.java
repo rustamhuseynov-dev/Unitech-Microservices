@@ -3,6 +3,7 @@ package com.rustam.ms_account.controller;
 import com.rustam.ms_account.dao.entity.Account;
 import com.rustam.ms_account.dto.request.AccountIncreaseRequest;
 import com.rustam.ms_account.dto.request.AccountRequest;
+import com.rustam.ms_account.dto.request.UpdateAccountRequest;
 import com.rustam.ms_account.dto.response.AccountIncreaseResponse;
 import com.rustam.ms_account.dto.response.AccountResponse;
 import com.rustam.ms_account.service.AccountService;
@@ -22,9 +23,9 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping(path = "/create-account")
-    public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody AccountRequest accountRequest){
-        return new ResponseEntity<>(accountService.createAccount(accountRequest), HttpStatus.CREATED);
-
+    public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody AccountRequest accountRequest,
+                                                         @RequestHeader("Authorization") String token){
+        return new ResponseEntity<>(accountService.createAccount(accountRequest,token), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/read-assets")
@@ -38,8 +39,8 @@ public class AccountController {
     }
 
     @PutMapping(path = "/update-account")
-    public ResponseEntity<AccountResponse> updateAccount(@RequestBody AccountRequest accountRequest){
-        return new ResponseEntity<>(accountService.updateAccount(accountRequest),HttpStatus.OK);
+    public ResponseEntity<AccountResponse> updateAccount(@RequestBody UpdateAccountRequest updateAccountRequest){
+        return new ResponseEntity<>(accountService.updateAccount(updateAccountRequest),HttpStatus.OK);
     }
 
     @PostMapping(path = "/account-increase")

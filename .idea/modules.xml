@@ -6,9 +6,14 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-api-gateway/Unitech-Microservices.ms-api-gateway.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-api-gateway/Unitech-Microservices.ms-api-gateway.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-auth/Unitech-Microservices.ms-auth.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-auth/Unitech-Microservices.ms-auth.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-currency/Unitech-Microservices.ms-currency.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-currency/Unitech-Microservices.ms-currency.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-notification-service/Unitech-Microservices.ms-notification-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-notification-service/Unitech-Microservices.ms-notification-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api-gateway.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api-gateway.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.rustam.ms-notification-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.rustam.ms-notification-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-account.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-account.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-currency.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-currency.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-notification-service.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-notification-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-notification-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-notification-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-notification-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-notification-service.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/unitech.main.iml" filepath="$PROJECT_DIR$/.idea/modules/unitech.main.iml" />
     </modules>
   </component>

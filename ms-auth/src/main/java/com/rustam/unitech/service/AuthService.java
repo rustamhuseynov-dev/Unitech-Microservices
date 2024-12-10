@@ -13,7 +13,6 @@ import com.rustam.unitech.exception.custom.UnauthorizedException;
 import com.rustam.unitech.exception.custom.UserNotFoundException;
 import com.rustam.unitech.model.User;
 import com.rustam.unitech.repository.UserRepository;
-import com.rustam.unitech.service.kafka.KafkaJwtSendService;
 import com.rustam.unitech.service.kafka.KafkaVerificationService;
 import com.rustam.unitech.service.user.UserDetailsServiceImpl;
 import com.rustam.unitech.util.UtilService;
@@ -39,7 +38,6 @@ public class AuthService {
     JwtService jwtService;
     RedisTemplate<String,String> redisTemplate;
     KafkaVerificationService kafkaVerificationService;
-    KafkaJwtSendService kafkaJwtSendService;
     UserDetailsServiceImpl userDetailsService;
     PasswordEncoderConfig passwordEncoderConfig;
 
@@ -57,7 +55,6 @@ public class AuthService {
                 : new TokenPair();  // Boş tokenlər üçün
         String redisKey = "refresh_token:" + user.getId(); // userId istifadəçinin identifikatorudur
         redisTemplate.opsForValue().set(redisKey, tokenPair.getRefreshToken(), Duration.ofDays(2)); // 2 gün müddətinə saxla
-        kafkaJwtSendService.sendJwt(tokenPair.getAccessToken());
         return AuthResponse.builder()
                 .tokenPair(tokenPair)
                 .build();

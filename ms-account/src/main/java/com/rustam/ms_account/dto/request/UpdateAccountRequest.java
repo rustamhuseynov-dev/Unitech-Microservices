@@ -12,7 +12,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AccountRequest {
+public class UpdateAccountRequest {
+
+    @NotNull
+    private String username;
 
     private Currency currency;
 }
+
