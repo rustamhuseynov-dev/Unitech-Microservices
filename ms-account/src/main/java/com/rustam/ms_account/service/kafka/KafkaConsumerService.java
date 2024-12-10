@@ -16,11 +16,11 @@ public class KafkaConsumerService {
     private final JwtUtil jwtUtil;
     private final AccountService accountService;
 
-    @KafkaListener(topics = "events-account-jwt", containerFactory = "customKafkaListenerContainerFactory")
-    public void jwtListener(String jwt) {
-        log.info("userId {}",jwt);
-        String id = jwtUtil.extractSubject(jwt);
-        AccountRequest accountRequest = new AccountRequest();
-        accountService.createAccount(accountRequest);
-    }
+//    @KafkaListener(topics = "events-account-jwt", containerFactory = "customKafkaListenerContainerFactory")
+//    public void jwtListener(String jwt) {
+//        log.info("userId {}",jwt);
+//        String id = jwtUtil.extractSubject(jwt);
+//        AccountRequest accountRequest = new AccountRequest();
+//        accountService.createAccount(accountRequest);
+//    }
 }
