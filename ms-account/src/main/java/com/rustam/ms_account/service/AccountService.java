@@ -8,6 +8,7 @@ import com.rustam.ms_account.dto.request.AccountRequest;
 import com.rustam.ms_account.dto.request.UpdateAccountRequest;
 import com.rustam.ms_account.dto.response.AccountIncreaseResponse;
 import com.rustam.ms_account.dto.response.AccountResponse;
+import com.rustam.ms_account.exception.custom.ResponseNotFoundException;
 import com.rustam.ms_account.mapper.AccountMapper;
 import com.rustam.ms_account.util.IbanService;
 import com.rustam.ms_account.util.jwt.JwtUtil;
@@ -61,7 +62,7 @@ public class AccountService {
         ResponseEntity<AccountResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, AccountResponse.class);
 
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
-            throw new RuntimeException("Failed to fetch user data from MS-Auth");
+            throw new ResponseNotFoundException("Failed to fetch user data from MS-Auth");
         }
         AccountResponse accountResponse = response.getBody();
 
