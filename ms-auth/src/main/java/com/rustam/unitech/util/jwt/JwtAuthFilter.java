@@ -31,10 +31,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    private final UserRepository userRepository;
-
-    private final UtilService utilService;
-
     private final AuthService authService;
 
     @Override
