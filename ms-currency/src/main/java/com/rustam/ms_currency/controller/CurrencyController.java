@@ -25,8 +25,13 @@ public class CurrencyController {
         return new ResponseEntity<>(currencyService.getAllCurrencies(),HttpStatus.ACCEPTED);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<Object> read(@RequestParam String currencyCode){
         return new ResponseEntity<>(currencyService.getCurrency(currencyCode),HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/save")
+    public void save(){
+        currencyService.save();
     }
 }
