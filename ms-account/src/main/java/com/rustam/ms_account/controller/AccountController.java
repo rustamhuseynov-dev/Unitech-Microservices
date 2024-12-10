@@ -3,6 +3,7 @@ package com.rustam.ms_account.controller;
 import com.rustam.ms_account.dao.entity.Account;
 import com.rustam.ms_account.dto.request.AccountIncreaseRequest;
 import com.rustam.ms_account.dto.request.AccountRequest;
+import com.rustam.ms_account.dto.request.UpdateAccountRequest;
 import com.rustam.ms_account.dto.response.AccountIncreaseResponse;
 import com.rustam.ms_account.dto.response.AccountResponse;
 import com.rustam.ms_account.service.AccountService;
@@ -37,10 +38,10 @@ public class AccountController {
         return new ResponseEntity<>(accountService.readAssetsByUsername(username), HttpStatus.OK);
     }
 
-//    @PutMapping(path = "/update-account")
-//    public ResponseEntity<AccountResponse> updateAccount(@RequestBody AccountRequest accountRequest){
-//        return new ResponseEntity<>(accountService.updateAccount(accountRequest),HttpStatus.OK);
-//    }
+    @PutMapping(path = "/update-account")
+    public ResponseEntity<AccountResponse> updateAccount(@RequestBody UpdateAccountRequest updateAccountRequest){
+        return new ResponseEntity<>(accountService.updateAccount(updateAccountRequest),HttpStatus.OK);
+    }
 
     @PostMapping(path = "/account-increase")
     public ResponseEntity<AccountIncreaseResponse> accountIncrease(@RequestBody AccountIncreaseRequest accountIncreaseRequest){
