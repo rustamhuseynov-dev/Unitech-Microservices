@@ -96,6 +96,9 @@ public class JwtService {
 
     public boolean isValidUserIdFromToken(String token) {
         try {
+            // Token-ı boşluqlardan təmizləyin
+            token = token.trim();  // Token başında və sonunda olan boşluqları silir
+
             Claims claims = Jwts.parser()
                     .setSigningKey(secretKey)
                     .parseClaimsJws(token)
@@ -114,6 +117,7 @@ public class JwtService {
             return false; // Burada false qaytarılır
         }
     }
+
 
     public String getUserIdAsUsernameFromTokenExpired(String token) {
         try {
