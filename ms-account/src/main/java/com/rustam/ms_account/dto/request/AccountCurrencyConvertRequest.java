@@ -16,4 +16,6 @@ public class AccountCurrencyConvertRequest {
 
     private Currency currencyCode;
 
+    private Currency baseCurrency;
+
 }
