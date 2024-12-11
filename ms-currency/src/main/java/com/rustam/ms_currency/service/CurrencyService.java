@@ -1,5 +1,6 @@
 package com.rustam.ms_currency.service;
 
+import com.rustam.ms_currency.dto.CurrencyRequest;
 import com.rustam.ms_currency.exception.custom.CurrencyCodeNotFoundException;
 import com.rustam.ms_currency.model.Currency;
 import lombok.AccessLevel;
@@ -7,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,35 +28,63 @@ public class CurrencyService {
 
 
     public void save() {
-        String apiUrl = "https://api.freecurrencyapi.com/v1/latest?apikey="+apiKey+"&currencies=EUR,USD,CAD&base_currency=USD   ";
 
-        Map<String, Object> currencies = restTemplate.getForObject(apiUrl, Map.class);
-        Map<String, Double> rates = (Map<String, Double>) currencies.get("data");
-        rates.forEach((currency, rate) -> redisTemplate.opsForHash().put("currencies", currency, rate));
     }
 
     public Map<Object, Object> getAllCurrencies() {
         return redisTemplate.opsForHash().entries("currencies");
     }
 
-    public Object getCurrency(String currencyCode) {
-        Object redisValue = redisTemplate.opsForHash().get("currencies", currencyCode);
+    public Object getCurrency(CurrencyRequest currencyRequest) {
+        // Base currency və API URL-i dinamik olaraq qurulur
+        String baseCurrency = currencyRequest.getBaseCurrency().toUpperCase();
+        String apiUrl = "https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_qG9OgrdEqoD2aj2XOnRrZn5kCmI8w5YPFIYaao8Z"
+                +"&currencies=EUR,USD,CAD&base_currency=" + baseCurrency;
 
-        if (redisValue == null) {
-            throw new CurrencyCodeNotFoundException("Currency not found in Redis");
+        String redisKey = "currencies:" + baseCurrency; // Redis üçün unikal açar
+        Boolean isCurrenciesExist = redisTemplate.hasKey(redisKey);
+
+        if (Boolean.FALSE.equals(isCurrenciesExist)) {
+            // Redis-də yoxdur, API-dən məlumatı gətir
+            Map<String, Object> currencies = restTemplate.getForObject(apiUrl, Map.class);
+            if (currencies != null && currencies.containsKey("data")) {
+                // currencies-in "data" hissəsini al
+                Map<String, Number> rates = (Map<String, Number>) currencies.get("data");
+
+                // Redis-ə yaz
+                rates.forEach((currency, rate) -> redisTemplate.opsForHash().put(redisKey, currency, rate));
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Currencies data is null or invalid from API");
+            }
         }
 
-        if (redisValue instanceof Double) {
+        // Redis-dən məlumatı oxu
+        Map<Object, Object> cachedRates = redisTemplate.opsForHash().entries(redisKey);
+
+        // İstifadəçi tərəfindən sorğulanan valyuta kodunu al
+        String requestedCurrency = currencyRequest.getCurrencyCode().toUpperCase();
+        Object redisValue = cachedRates.get(requestedCurrency);
+
+        if (redisValue == null) {
+            throw new CurrencyCodeNotFoundException("Currency not found in Redis: " + requestedCurrency);
+        }
+
+        // Valyutanın dəyərini yoxla və qaytar
+        if (redisValue instanceof Number) {
             return redisValue;
         }
 
+        // Əlavə olaraq kompleks obyektlər üçün yoxlama
         if (redisValue instanceof Currency) {
-            Currency currencies = (Currency) redisValue;
-            if (!Objects.equals(currencies.getCurrencyCode(), currencyCode)) {
-                throw new CurrencyCodeNotFoundException("Currency code mismatch");
+            Currency currency = (Currency) redisValue;
+            if (!Objects.equals(currency.getCurrencyCode(), requestedCurrency)) {
+                throw new CurrencyCodeNotFoundException("Currency code mismatch for: " + requestedCurrency);
             }
-            return currencies.getValue();
+            return currency.getValue();
         }
+
         return redisValue;
     }
+
 }
