@@ -7,7 +7,7 @@ spring:
       port: 6379
 
   currency:
-    api-key: "fca_live_AFVxnIuvMZkXILp4kxyEYpNU7h0hJX97pJOpArSo"
+    api-key: "fca_live_qG9OgrdEqoD2aj2XOnRrZn5kCmI8w5YPFIYaao8Z"
 
 eureka:
   client:

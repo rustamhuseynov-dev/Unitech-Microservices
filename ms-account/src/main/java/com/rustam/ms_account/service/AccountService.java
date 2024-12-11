@@ -4,10 +4,7 @@ import com.rustam.ms_account.config.WebClientConfig;
 import com.rustam.ms_account.dao.entity.Account;
 import com.rustam.ms_account.dao.enums.AccountStatus;
 import com.rustam.ms_account.dao.repository.AccountRepository;
-import com.rustam.ms_account.dto.request.AccountCurrencyConvertRequest;
-import com.rustam.ms_account.dto.request.AccountIncreaseRequest;
-import com.rustam.ms_account.dto.request.AccountRequest;
-import com.rustam.ms_account.dto.request.UpdateAccountRequest;
+import com.rustam.ms_account.dto.request.*;
 import com.rustam.ms_account.dto.response.AccountCurrencyConvertResponse;
 import com.rustam.ms_account.dto.response.AccountIncreaseResponse;
 import com.rustam.ms_account.dto.response.AccountResponse;
@@ -48,8 +45,8 @@ public class AccountService {
 
     private final WebClient.Builder builder;
 
-    @Value("${spring.application.ms-auth}")
-    private String AUTH_SERVICE_URL;
+   // @Value("${spring.application.ms-auth}")
+    private final static String AUTH_SERVICE_URL = "http://localhost:8085/api/v1/user/read";
 
     @Value("${spring.application.ms-currency}")
     private String CURRENCY_SERVICE_URL;
@@ -62,8 +59,7 @@ public class AccountService {
         String url = AUTH_SERVICE_URL + "/" + userId;
 
         HttpHeaders headers = new HttpHeaders();
-        String accessToken = "Bearer " + token;
-        headers.set("Authorization", accessToken);
+        headers.set("Authorization", token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
@@ -149,8 +145,9 @@ public class AccountService {
         if (account.getCurrency().equals(accountCurrencyConvertRequest.getCurrencyCode())){
             throw new ResponseNotFoundException("The currency of this employee is the same as the currency to be converted.");
         }
+        accountCurrencyConvertRequest.setBaseCurrency(account.getCurrency());
         BigDecimal calculatedValue =
-                getCurrencyValue(String.valueOf(accountCurrencyConvertRequest.getCurrencyCode()))
+                getCurrencyValue(accountCurrencyConvertRequest)
                 .map(currency ->
                         account.getBalance().multiply(BigDecimal.valueOf(currency)))
                 .block();
@@ -163,15 +160,17 @@ public class AccountService {
                 .build();
     }
 
-    private Mono<Double> getCurrencyValue(String currencyCode) {
+    private Mono<Double> getCurrencyValue(AccountCurrencyConvertRequest accountCurrencyConvertRequest) {
         return builder.build()
-                .get()
-                .uri(CURRENCY_SERVICE_URL + "?currencyCode=" + currencyCode)
-                .retrieve()
-                .bodyToMono(Double.class)
+                .post() // POST metodu istifadə edilir
+                .uri(CURRENCY_SERVICE_URL) // URL sadəcə endpoint-i göstərir
+                .body(Mono.just(accountCurrencyConvertRequest), AccountCurrencyConvertRequest.class) // Request body əlavə edilir
+                .retrieve() // Cavab alınır
+                .bodyToMono(Double.class) // Double formatında cavab gözlənilir
+                .defaultIfEmpty(0.0) // Əgər heç bir nəticə yoxdursa, default dəyər
                 .onErrorResume(e -> {
-                    System.err.println("Error occurred: " + e.getMessage());
-                    return Mono.empty();
+                    log.error("Error occurred while fetching currency value: {}", e.getMessage());
+                    return Mono.just(0.0); // Default error dəyər
                 });
     }
 

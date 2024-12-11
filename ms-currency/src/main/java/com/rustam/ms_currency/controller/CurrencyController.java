@@ -1,6 +1,7 @@
 package com.rustam.ms_currency.controller;
 
 import com.rustam.ms_currency.dto.CurrencyDto;
+import com.rustam.ms_currency.dto.CurrencyRequest;
 import com.rustam.ms_currency.service.CurrencyService;
 import jakarta.ws.rs.GET;
 import lombok.AccessLevel;
@@ -25,9 +26,9 @@ public class CurrencyController {
         return new ResponseEntity<>(currencyService.getAllCurrencies(),HttpStatus.ACCEPTED);
     }
 
-    @GetMapping
-    public ResponseEntity<Object> read(@RequestParam String currencyCode){
-        return new ResponseEntity<>(currencyService.getCurrency(currencyCode),HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<Object> read(@RequestBody CurrencyRequest currencyRequest){
+        return new ResponseEntity<>(currencyService.getCurrency(currencyRequest),HttpStatus.OK);
     }
 
     @PostMapping(path = "/save")
