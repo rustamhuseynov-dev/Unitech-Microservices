@@ -1,6 +1,5 @@
 package com.rustam.ms_notification_service.service;
 
-import com.rustam.ms_notification_service.dto.SendMailDto;
 import com.rustam.ms_notification_service.dto.VerificationSendDto;
 import com.rustam.ms_notification_service.util.EmailSender;
 import lombok.RequiredArgsConstructor;
