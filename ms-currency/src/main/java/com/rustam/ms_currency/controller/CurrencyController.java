@@ -31,8 +31,4 @@ public class CurrencyController {
         return new ResponseEntity<>(currencyService.getCurrency(currencyRequest),HttpStatus.OK);
     }
 
-    @PostMapping(path = "/save")
-    public void save(){
-        currencyService.save();
-    }
 }

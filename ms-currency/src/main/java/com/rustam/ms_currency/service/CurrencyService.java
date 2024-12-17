@@ -26,32 +26,22 @@ public class CurrencyService {
     @Value("${spring.currency.api-key}")
     static String apiKey;
 
-
-    public void save() {
-
-    }
-
     public Map<Object, Object> getAllCurrencies() {
         return redisTemplate.opsForHash().entries("currencies");
     }
 
     public Object getCurrency(CurrencyRequest currencyRequest) {
-        // Base currency və API URL-i dinamik olaraq qurulur
         String baseCurrency = currencyRequest.getBaseCurrency().toUpperCase();
         String apiUrl = "https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_qG9OgrdEqoD2aj2XOnRrZn5kCmI8w5YPFIYaao8Z"
                 +"&currencies=EUR,USD,CAD&base_currency=" + baseCurrency;
 
-        String redisKey = "currencies:" + baseCurrency; // Redis üçün unikal açar
+        String redisKey = "currencies:" + baseCurrency;
         Boolean isCurrenciesExist = redisTemplate.hasKey(redisKey);
 
         if (Boolean.FALSE.equals(isCurrenciesExist)) {
-            // Redis-də yoxdur, API-dən məlumatı gətir
             Map<String, Object> currencies = restTemplate.getForObject(apiUrl, Map.class);
             if (currencies != null && currencies.containsKey("data")) {
-                // currencies-in "data" hissəsini al
                 Map<String, Number> rates = (Map<String, Number>) currencies.get("data");
-
-                // Redis-ə yaz
                 rates.forEach((currency, rate) -> redisTemplate.opsForHash().put(redisKey, currency, rate));
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -59,10 +49,8 @@ public class CurrencyService {
             }
         }
 
-        // Redis-dən məlumatı oxu
         Map<Object, Object> cachedRates = redisTemplate.opsForHash().entries(redisKey);
 
-        // İstifadəçi tərəfindən sorğulanan valyuta kodunu al
         String requestedCurrency = currencyRequest.getCurrencyCode().toUpperCase();
         Object redisValue = cachedRates.get(requestedCurrency);
 
